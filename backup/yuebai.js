@@ -7,7 +7,7 @@
  */
 
 const $ = new Env("悦拜APP");
-const notify = $.isNode() ? require('./sendNotify') : '';
+const notify = $.isNode() ? require('../sendNotify') : '';
 let ckName = "yuepaiToken";
 let envSplitor = ["&", "\n"]; //多账号分隔符
 let strSplitor = "#"; //多变量分隔符

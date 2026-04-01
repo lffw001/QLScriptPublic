@@ -21,7 +21,7 @@ const $ = new Env("悦野圈");
 const ckName = "yyq_new";
 //-------------------- 一般不动变量区域 -------------------------------------
 const Notify = 1;         //0为关闭通知,1为打开通知,默认为1
-const notify = $.isNode() ? require('./sendNotify') : '';
+const notify = $.isNode() ? require('../sendNotify') : '';
 let envSplitor = ["&", "\n"]; //多账号分隔符
 let msg = '';       //let ck,msg
 let userCookie = ($.isNode() ? process.env[ckName] : $.getdata(ckName)) || '';

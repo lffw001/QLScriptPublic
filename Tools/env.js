@@ -13,6 +13,7 @@ function Env(t, s) {
             this.log(`\ud83d\udd14${this.name},\u5f00\u59cb!`);
         }
         checkEnv(ckName) {
+            const envSplitor = ["&", "\n"];
             let userCookie = (this.isNode() ? process.env[ckName] : "") || "";
             this.userList = userCookie.split(envSplitor.find((o) => userCookie.includes(o)) || "&").filter((n) => n);
             this.userCount = this.userList.length;
@@ -36,10 +37,14 @@ function Env(t, s) {
         isNode() {
             return "undefined" != typeof module && !!module.exports;
         }
-
-        queryStr(options) {
-            const queryString = require("querystring");
-            return queryString.stringify(options);
+        jsonToStr(obj, c = '&', encodeUrl = false) {
+            let ret = []
+            for (let keys of Object.keys(obj).sort()) {
+                let v = obj[keys]
+                if (v && encodeUrl) v = encodeURIComponent(v)
+                ret.push(keys + '=' + v)
+            }
+            return ret.join(c);
         }
         getURLParams(url) {
             const params = {};
@@ -127,7 +132,7 @@ function Env(t, s) {
         wait(t) {
             return new Promise((s) => setTimeout(s, t));
         }
-        async done(t = {}) {
+        async done() {
             await this.sendMsg();
             const s = new Date().getTime(),
                 e = (s - this.startTime) / 1e3;
@@ -139,4 +144,7 @@ function Env(t, s) {
             }
         }
     })(t, s);
+}
+module.exports = {
+    Env
 }
