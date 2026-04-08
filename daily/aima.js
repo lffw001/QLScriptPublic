@@ -10,7 +10,7 @@ const $ = new Env("爱玛会员俱乐部");
 const axios = require('axios')
 
 // ================== 配置区 ==================
-const ACTIVITY_ID = "100001180"; // 2026年2月活动ID
+const ACTIVITY_ID = "100001192"; // 2026年2月活动ID
 const BASE_URL = "https://scrm.aimatech.com"; // 使用官方域名，不再硬编码IP
 const APP_ID = "scrm";
 const USER_AGENT = "Mozilla/5.0 (Linux; Android 15; 23013RK75C Build/AQ3A.250226.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/142.0.7444.173 Mobile Safari/537.36 XWEB/1420229 MMWEBSDK/20251101 MMWEBID/6369 MicroMessenger/8.0.67.3000(0x28004333) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64 MiniProgramEnv/android";
@@ -115,7 +115,7 @@ async function signIn(token, index) {
   }
 
   // 发送通知
-  await $.sendMsg($.logs.join("\n"));
+  //await $.sendMsg($.logs.join("\n"));
 })()
   .catch((e) => console.log(e))
   .finally(() => $.done());
