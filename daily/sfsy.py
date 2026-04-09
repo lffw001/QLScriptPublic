@@ -4,6 +4,8 @@ Author: 爱学习的呆子
 Version: 1.3.0
 Date: 2026-04-04
 new Env("顺丰速运日常任务")
+变量名:sfsyUrl
+mcs-mimp-web.sf-express.com中的cookie
 cron 0 12 * * *
 """
 # 扫码获取ck地址：https://sm.9999.blue/
