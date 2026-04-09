@@ -44,7 +44,7 @@ class Task {
     async signIn() {
         let options = {
             method: 'POST',
-            url: `https://msmarket.msx.digitalyili.com/gateway/api/member/sign/config`,
+            url: `https://msmarket.msx.digitalyili.com/gateway/api/member/daily/sign`,
             headers: {
 
                 "accept": "*/*",
@@ -72,7 +72,7 @@ class Task {
         let { data: result } = await axios.request(options);
         if (result?.status == true) {
             //打印签到结果
-            $.log(`🌸账号[${this.index}]` + `🕊签到获得${result.data.dailySignConfig.bonusPoint}分🎉`);
+            $.log(`🌸账号[${this.index}]` + `🕊签到获得${result.data.dailySign.bonusPoint}分🎉`);
         } else {
             $.log(`🌸账号[${this.index}] 签到-失败:${result.error}❌`)
         }
@@ -103,19 +103,19 @@ class Task {
     .finally(() => $.done());
 
 async function getNotice() {
-	try {
-		let options = {
-			url: `https://ghproxy.net/https://raw.githubusercontent.com/smallfawn/Note/refs/heads/main/Notice.json`,
-			headers: {
-				"User-Agent": defaultUserAgent,
-			},
-            timeout:3000
-		}
-		let {
-			data: res
-		} = await axios.request(options);
-		$.log(res)
-		return res
-	} catch (e) {}
+    try {
+        let options = {
+            url: `https://ghproxy.net/https://raw.githubusercontent.com/smallfawn/Note/refs/heads/main/Notice.json`,
+            headers: {
+                "User-Agent": defaultUserAgent,
+            },
+            timeout: 3000
+        }
+        let {
+            data: res
+        } = await axios.request(options);
+        $.log(res)
+        return res
+    } catch (e) { }
 
 }
