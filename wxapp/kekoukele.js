@@ -163,10 +163,7 @@ class Task {
     } else {
         $.log(`${ckName}未配置微信SERVER配置 搭建可看仓库目录下的readme.md❌`)
 
-    } else {
-        $.log(`${ckName}未配置微信SERVER配置 搭建可看仓库目录下的readme.md❌`)
-
-    }
+    } 
     for (let user of $.userList) {
         await new Task(user).run();
     }

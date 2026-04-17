@@ -10,7 +10,7 @@ cron: 30 9 * * 1
 #Notice:   
 谷雨 微信小程序 签到得积分 
 WeChatCodeServer 填写wx_server_url wx_auth 用于获取code 
-变量名称：guyu
+变量名称：guyu 名字 授权地址控制中心 里面的openid 多个账号用&分割
 ⚠️【免责声明】
 ------------------------------------------
 1、此脚本仅用于学习研究，不保证其合法性、准确性、有效性，请根据情况自行判断，本人对此不承担任何保证责任。
@@ -32,10 +32,9 @@ const strSplitor = "#";
 const axios = require("axios");
 const defaultUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.31(0x18001e31) NetType/WIFI Language/zh_CN miniProgram"
 let wechat = new WeChatCodeServer({
-    url: process.env.wx_server_url || 'http://192.168.31.196:12081',
+    url: process.env.wx_server_url || 'https://127.0.0.1:9999',
     appid: 'wxda948f3be0afc375',
-    auth: process.env.wx_auth || "your-api-key",
-
+    auth: process.env.wx_auth || "xxx",
 }
 );
 
@@ -44,14 +43,15 @@ class Task {
         this.index = $.userIdx++
         this.user = env.split(strSplitor);
         this.token = null
-        this.openid = null
+        this.openid = this.user[0]
         this.isSign = false
     }
 
     async run() {
-        let { data: codeRes } = await wechat.GetMiniCode()
+        await wechat.init(this.openid)
+        let { data: codeRes } = await wechat.getCode(this.openid)
         if (codeRes.status) {
-            await this.getUserToken(codeRes.data)
+            await this.getUserToken(codeRes.data.wxcode)
         }
         if (!this.token) {
             $.log(`账号[${this.index}] 获取用户Token失败❌`)
@@ -94,6 +94,7 @@ class Task {
         let {
             data: result
         } = await axios.request(options);
+        console.log(result);
 
         if (result?.success) {
             this.token = result.result.mobileToken
@@ -216,10 +217,11 @@ class Task {
     await getNotice()
     $.checkEnv(ckName);
     if (process.env['wx_server_url'] && process.env['wx_auth'] && process.env['wx_app'].indexOf(ckName) !== -1) {
-        $.userList = ['test']
-    }  else {
-        $.log(`${ckName}未配置微信SERVER配置 搭建可看仓库目录下的readme.md❌`)
 
+    } else {
+        $.userList = ['owNAX6vpzXX7kbhWgKFdZAtL9eAo']
+        $.log(`${ckName}未配置微信SERVER配置 搭建可看仓库目录下的readme.md❌`)
+        //return
     }
     for (let user of $.userList) {
         await new Task(user).run();
