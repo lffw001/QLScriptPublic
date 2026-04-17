@@ -10,7 +10,7 @@ cron: 30 9 * * 1
 #Notice:   
 谷雨 微信小程序 签到得积分 
 WeChatCodeServer 填写wx_server_url wx_auth 用于获取code 
-变量名称：guyu 名字 授权地址控制中心 里面的openid 多个账号用&分割
+变量名称：guyu 名字 授权中心 里面的openid 多个账号用&分割
 ⚠️【免责声明】
 ------------------------------------------
 1、此脚本仅用于学习研究，不保证其合法性、准确性、有效性，请根据情况自行判断，本人对此不承担任何保证责任。
@@ -35,6 +35,7 @@ let wechat = new WeChatCodeServer({
     url: process.env.wx_server_url || 'https://127.0.0.1:9999',
     appid: 'wxda948f3be0afc375',
     auth: process.env.wx_auth || "xxx",
+
 }
 );
 
@@ -216,16 +217,16 @@ class Task {
 !(async () => {
     await getNotice()
     $.checkEnv(ckName);
-    if (process.env['wx_server_url'] && process.env['wx_auth'] && process.env['wx_app'].indexOf(ckName) !== -1) {
-
+    if (process.env['wx_server_url'] && process.env['wx_auth']) {
+        for (let user of $.userList) {
+            await new Task(user).run();
+        }
     } else {
-        $.userList = ['owNAX6vpzXX7kbhWgKFdZAtL9eAo']
+
         $.log(`${ckName}未配置微信SERVER配置 搭建可看仓库目录下的readme.md❌`)
-        //return
+        return
     }
-    for (let user of $.userList) {
-        await new Task(user).run();
-    }
+
 })()
     .catch((e) => console.log(e))
     .finally(() => $.done());
